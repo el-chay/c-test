@@ -1,0 +1,1 @@
+all: getrandom use-hash
