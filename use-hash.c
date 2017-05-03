@@ -18,11 +18,13 @@ static char *input[] = {
 };
 
 static int values[] = {1,2,3,4,5,6,7,8,9,10};
+static int exit_value = 0;
 
+#define TOSTR(X) #X
+#define LINE2STR(X) TOSTR(X)
 #define ERROR_P() \
     exit_value = errno;\
-    sprintf(errormsg, "%s|%d", __FILE__, __LINE__ - 1);\
-    perror(errormsg);
+    perror(__FILE__ "|" LINE2STR(__LINE__));
 
 #define ERROR(LABEL)\
     ERROR_P();\
@@ -32,7 +34,6 @@ int main(int argc, char *argv[])
 {
     struct hsearch_data *htab = calloc(1, sizeof(struct hsearch_data));
     char errormsg[100];
-    int exit_value = 0;
 
     if(!hcreate_r(100, htab)){
         ERROR_P();
