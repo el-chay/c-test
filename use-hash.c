@@ -22,21 +22,22 @@ static int exit_value = 0;
 
 #define TOSTR(X) #X
 #define LINE2STR(X) TOSTR(X)
-#define ERROR_P() \
+#define DINFO __FILE__ "|" LINE2STR(__LINE__)
+
+#define PERROR() \
     exit_value = errno;\
-    perror(__FILE__ "|" LINE2STR(__LINE__));
+    perror(DINFO);
 
 #define ERROR(LABEL)\
-    ERROR_P();\
+    PERROR();\
     goto LABEL;
 
 int main(int argc, char *argv[])
 {
     struct hsearch_data *htab = calloc(1, sizeof(struct hsearch_data));
-    char errormsg[100];
 
     if(!hcreate_r(100, htab)){
-        ERROR_P();
+        PERROR();
         return 1;
     }
     ENTRY *found = NULL;
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
     }
     ENTRY entry = { "kkck", NULL };
     if(!hsearch_r(entry, FIND, &found, htab)){
-        ERROR_P();
+        PERROR();
     }
 
 fin:
