@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     if(!hcreate_r(100, htab)){
         PERROR();
-        return 1;
+        return exit_value;
     }
     ENTRY *found = NULL;
     for(int i=0; i<10; i++){
